@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+#
+# Create an empty, executable bash script in the current directory
+#
+
+import sys
+import pathlib
+
+
+if len(sys.argv) != 2:
+    print('Usage: {} SCRIPT_NAME'.format(sys.argv[0]))
+    sys.exit(1)
+
+
+script = pathlib.Path(sys.argv[-1])
+if script.exists():
+    print(f'Script {} already exists! Aborting'.format(script.name))
+    sys.exit(1)
+
+script.write_text("""
+#!/usr/bin/env bash
+
+""")
+script.chmod(0o755)
+
