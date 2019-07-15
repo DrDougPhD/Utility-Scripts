@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Author: Doug McGeehan <djmvfb@mst.edu>
+#
+# Pull the files in the current working directory on the remote host into this
+# directory.
+#
+# This script assumes the directory structure on this host matches the
+# directory structure on the remote host.
+#  e.g. /home/doug/some/directory exists on this host and the remote host
+#
+
+EXPECTED_PARAMETERS=1
+
+
+main () {
+  # check that parameters are correct
+  check_parameters $@
+
+  CURRENT_DIRECTORY="$(pwd)"
+  REMOTE_HOST="${1}"
+
+  echo "Syncing ${CURRENT_DIRECTORY} from ${REMOTE_HOST} to here"
+
+  rsync --partial --progress \
+        --archive \
+        --verbose \
+        --recursive \
+        "${REMOTE_HOST}":"${CURRENT_DIRECTORY}"/\* \
+        "${CURRENT_DIRECTORY}/"
+}
+
+
+check_parameters () {
+  if [ "$#" -ne ${EXPECTED_PARAMETERS} ]
+  then
+    echo "Illegal number of parameters"
+    echo "Usage: syncdir REMOTE_HOST"
+    exit 1
+  fi
+}
+
+
+main $@
+
