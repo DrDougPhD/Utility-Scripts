@@ -14,7 +14,7 @@ if len(sys.argv) != 2:
 
 script = pathlib.Path(sys.argv[-1])
 if script.exists():
-    print(f'Script {} already exists! Aborting'.format(script.name))
+    print('Script {} already exists! Aborting'.format(script.name))
     sys.exit(1)
 
 script.write_text("""
