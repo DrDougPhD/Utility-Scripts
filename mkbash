@@ -17,8 +17,7 @@ if script.exists():
     print('Script {} already exists! Aborting'.format(script.name))
     sys.exit(1)
 
-script.write_text("""
-#!/usr/bin/env bash
+script.write_text("""#!/usr/bin/env bash
 
 """)
 script.chmod(0o755)
