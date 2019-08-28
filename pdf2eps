@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# $Id: pdf2eps,v 0.02 2019/08/28 Doug McGeehan $
+# Convert PDF to encapsulated PostScript.
+# Based on: https://stackoverflow.com/a/4411117
+# usage:
+# pdf2eps <pdf file>
+
+PDF="$1"
+FILE_PREFIX=${PDF%.*}
+CROPPED_PDF="${FILE_PREFIX}-crop.pdf"
+CROPPED_EPS="${FILE_PREFIX}-crop.eps"
+
+echo "Cropping ${PDF} => ${CROPPED_PDF}"
+pdfcrop "$PDF" > /dev/null
+
+echo "Converting ${CROPPED_PDF} => ${CROPPED_EPS}"
+pdftops -f 1 -l 1 -eps "${CROPPED_PDF}"
+
+rm  "${CROPPED_PDF}"
+mv  "${CROPPED_EPS}" "${FILE_PREFIX}.eps"
+
+echo
+
